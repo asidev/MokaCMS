@@ -1,0 +1,209 @@
+{
+	"themes": [
+		{
+			"name": [
+				{
+					"language": "en",
+					"text": "Test Theme"
+				},
+				{
+					"language": "it",
+					"text": "Tema di test",
+				},
+			],
+			"templates": [
+				{
+					"name": [
+						{
+							"language": "en",
+							"text": "Standard Page",
+						},
+						{
+							"language": "it",
+							"text": "Pagina Standard",
+						},
+					],
+					"file": "/standard_page.mako",
+					"widgets": [
+						{
+							"name": "mokacms.widgets.news.latest",
+							"args": [
+								{
+									"name": "limit",
+									"value": "10"
+								}
+							]
+						},
+						{
+							"name": "mokacms.widgets.galleries.latest",
+							"args": [
+								{
+									"name": "limit",
+									"value": "10"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"pages": [
+		{
+			"url": "/en/aboutus.html",
+			"template": "/standard_page.mako",
+			"language": "en",
+			"title": "About Us",
+			"head": {
+				"meta": [
+					"attrs": [
+						{
+							"key": "name",
+							"value": "keywords",
+						},
+						{
+							"key": "content",
+							"value": "asidev about us bla bla bla",
+						}
+					],
+					"value": ""
+				]
+			},
+			"contents": [
+				{
+					"body": "<p>About Asidev: they are awesome!</p>"
+				}
+			],
+			"translations": [
+				{
+					"language": "it",
+					"url": "/it/chisiamo.html",
+				}
+			],
+			"homepage": "True",
+			"enabled": "True"
+		},
+		{
+			"url": "/it/chisiamo.html",
+			"template": "/standard_page.mako",
+			"language": "it",
+			"title": "Chi Siamo",
+			"head": {
+				"meta": [
+					"attrs": [
+						{
+							"key": "name",
+							"value": "keywords",
+						},
+						{
+							"key": "content",
+							"value": "asidev chi siamo bla bla bla",
+						}
+					],
+					"value": ""
+				]
+			},
+			"contents": [
+				{
+					"body": "<h1>Asidev: Chi Siamo</h1>"
+				},
+				{
+					"body": "<p>Siamo troppo forti!</p>"
+				}
+			],
+			"translations": [
+				{
+					"language": "en",
+					"url": "/en/aboutus.html",
+				}
+			],
+			"homepage": "True",
+			"enabled": "True"
+		},
+		{
+			"url": "/en/products.html",
+			"redirect": {
+				"url": "/en/services.html",
+				"code": "301"
+			},
+			"enabled": "True"
+		},
+		{
+			"url": "/en/homepage.html",
+			"redirect": {
+				"url": "/en/aboutus.html",
+				"code": "301"
+			},
+			"enabled": "False"
+		},
+		{
+			"url": "/en/services.html",
+			"template": "/standard_page.mako",
+			"language": "en",
+			"title": "Services",
+			"head": {
+				"meta": [
+					"attrs": [
+						{
+							"key": "name",
+							"value": "keywords",
+						},
+						{
+							"key": "content",
+							"value": "asidev services bla bla bla",
+						}
+					],
+					"value": ""
+				]
+			},
+			"contents": [
+				{
+					"body": "<h1>Asidev: Services</h1>"
+				},
+				{
+					"body": "<p>We do more with less...</p>"
+				}
+			],
+			"translations": [],
+			"homepage": "True",
+			"enabled": "False"
+		},
+	],
+	"menus": [
+		{
+			"name": "main-menu",
+			"content": [
+		    	{
+					"language": "en",
+					"items": [
+						{
+							"label": "Company",
+							"url": "/en/aboutus.html",
+							"children": [
+								{
+									"label": "About Us",
+									"url": "/en/aboutus.html",
+									"children": []
+								}
+							]
+						}
+					]
+		    	},
+		    	{
+					"language": "it",
+					"items": [
+						{
+							"label": "Azienda",
+							"children": [
+								{
+									"label": "Chi Siamo",
+									"url": "/it/chisiamo.html",
+								}
+							]
+						}
+					]
+		    	},
+			]
+		}
+	]
+}
