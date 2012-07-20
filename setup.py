@@ -10,6 +10,7 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'waitress',
+    'pymongo'
     ]
 
 setup(name='MokaCMS',
@@ -17,7 +18,7 @@ setup(name='MokaCMS',
       description='MokaCMS',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 1 - Planning",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Framework :: Pyramid",

@@ -1,0 +1,11 @@
+#!/bin/bash
+[ -z $1 ] && echo "Missing ini file" && exit 2
+INI=$(realpath $1) ; shift
+echo $INI
+
+PORT=6543
+if [ ! -z $2 ]; then PORT=$2; shift; fi
+
+PYHOME=""
+[ -z $VIRTUAL_ENV ] || PYHOME="--pyhome $VIRTUAL_ENV"
+USERVE_PASTE_INI="$INI" uwsgi --http :$PORT --module wsgi $PYHOME --static-map /static=$PWD/mokacms/static "$@"
