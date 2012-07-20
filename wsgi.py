@@ -19,9 +19,8 @@ except IOError:
     sys.stderr.flush()
     sys.exit(3)
 
+
 os.environ['uWSGI_VHOST_MODE'] = '1'
 application = loadapp("config:%s" % (os.environ['USERVE_PASTE_INI']))
 del os.environ['USERVE_PASTE_INI']
-
-
 
