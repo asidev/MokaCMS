@@ -1,2 +1,3 @@
 MokaCMS.egg-info/
 dist/
+mokacms/__pycache__/
