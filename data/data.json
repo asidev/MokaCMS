@@ -8,20 +8,20 @@
 				},
 				{
 					"language": "it",
-					"text": "Tema di test",
-				},
+					"text": "Tema di test"
+				}
 			],
 			"templates": [
 				{
 					"name": [
 						{
 							"language": "en",
-							"text": "Standard Page",
+							"text": "Standard Page"
 						},
 						{
 							"language": "it",
-							"text": "Pagina Standard",
-						},
+							"text": "Pagina Standard"
+						}
 					],
 					"file": "/standard_page.mako",
 					"widgets": [
@@ -56,17 +56,19 @@
 			"title": "About Us",
 			"head": {
 				"meta": [
-					"attrs": [
-						{
-							"key": "name",
-							"value": "keywords",
-						},
-						{
-							"key": "content",
-							"value": "asidev about us bla bla bla",
-						}
-					],
-					"value": ""
+					{
+						"attrs": [
+							{
+								"key": "name",
+								"value": "keywords"
+							},
+							{
+								"key": "content",
+								"value": "asidev about us bla bla bla"
+							}
+						],
+						"value": ""
+					}
 				]
 			},
 			"contents": [
@@ -77,7 +79,7 @@
 			"translations": [
 				{
 					"language": "it",
-					"url": "/it/chisiamo.html",
+					"url": "/it/chisiamo.html"
 				}
 			],
 			"homepage": "True",
@@ -90,17 +92,19 @@
 			"title": "Chi Siamo",
 			"head": {
 				"meta": [
-					"attrs": [
-						{
-							"key": "name",
-							"value": "keywords",
-						},
-						{
-							"key": "content",
-							"value": "asidev chi siamo bla bla bla",
-						}
-					],
-					"value": ""
+					{
+						"attrs": [
+							{
+								"key": "name",
+								"value": "keywords"
+							},
+							{
+								"key": "content",
+								"value": "asidev chi siamo bla bla bla"
+							}
+						],
+						"value": ""
+					}
 				]
 			},
 			"contents": [
@@ -114,7 +118,7 @@
 			"translations": [
 				{
 					"language": "en",
-					"url": "/en/aboutus.html",
+					"url": "/en/aboutus.html"
 				}
 			],
 			"homepage": "True",
@@ -143,17 +147,19 @@
 			"title": "Services",
 			"head": {
 				"meta": [
-					"attrs": [
-						{
-							"key": "name",
-							"value": "keywords",
-						},
-						{
-							"key": "content",
-							"value": "asidev services bla bla bla",
-						}
-					],
-					"value": ""
+					{
+						"attrs": [
+							{
+								"key": "name",
+								"value": "keywords"
+							},
+							{
+								"key": "content",
+								"value": "asidev services bla bla bla"
+							}
+						],
+						"value": ""
+					}
 				]
 			},
 			"contents": [
@@ -167,7 +173,7 @@
 			"translations": [],
 			"homepage": "True",
 			"enabled": "False"
-		},
+		}
 	],
 	"menus": [
 		{
@@ -197,12 +203,12 @@
 							"children": [
 								{
 									"label": "Chi Siamo",
-									"url": "/it/chisiamo.html",
+									"url": "/it/chisiamo.html"
 								}
 							]
 						}
 					]
-		    	},
+		    	}
 			]
 		}
 	]
