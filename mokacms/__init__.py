@@ -28,7 +28,7 @@ def add_routes(config, settings):
         log.critical(str(e))
         sys.exit(10)
 
-    pfx = "{}/{}".format(api_prefix, api_version)
+    pfx = "{}/v{}".format(api_prefix, api_version)
     log.info("Setting up API with prefix {}".format(pfx))
     config.add_route("api", pfx)
 
