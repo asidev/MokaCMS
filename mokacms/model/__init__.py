@@ -10,9 +10,10 @@ def mongodb_start_request(request):
 
     def cleanup(_):
         """ Callback handler for the "finished" request event """
-        log.debug("Ending request to mongodb '{}'".format(db))
+        log.debug("Ending MongoDB request")
         request.registry.mongodb_connection.end_request()
 
     request.add_finished_callback(cleanup)
     request.registry.mongodb_connection.start_request()
+    log.debug("Starting MongoDB request")
     return request.registry.mongodb_connection[request.registry.mongodb_database]
