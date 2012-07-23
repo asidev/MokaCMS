@@ -12,14 +12,18 @@ from pyramid.decorator import reify
 from pymongo import Connection
 
 
-DEFAULT_INI = os.path.realpath(
-                os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                             '..', '..', 'moka.ini'))
+DEFAULT_INI_NAME =  'moka.ini'
 if "MOKA_INI" in os.environ:
-    DEFAULT_INI = os.environ['MOKA_INI']
+    DEFAULT_INI_NAME = os.environ['MOKA_INI']
+MOKA_ROOT = os.path.realpath(
+            os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                         '..', '..'))
+DEFAULT_INI = os.path.join(MOKA_ROOT, DEFAULT_INI_NAME)
 
 
 class MokaApp(foundation.CementApp):
+    root_path = MOKA_ROOT
+
     class Meta:
         label = 'moka'
         base_controller = MokaBaseController
