@@ -1,28 +1,18 @@
 import logging
-from pymongo import Connection
 log = logging.getLogger(__name__)
 
 
-def mongodb_connect(request):
+def mongodb_start_request(request):
     """Return the connection to the configured database.
        This function is called once per request as its return value
        is cached.
     """
-    conf = {s.replace("mongodb.", ""): request.registry.settings[s]
-            for s in request.registry.settings
-            if s.startswith("mongodb.") and "database" not in s}
-    db = request.registry.settings["mongodb.database"]
-
-    log.debug("Connection to mongodb: {}, database '{}'".format(conf, db))
-    if "port" in conf:
-        conf["port"] = int(conf["port"])
-
-    conn = Connection(**conf)
 
     def cleanup(_):
         """ Callback handler for the "finished" request event """
-        log.debug("Closing connection to mongodb '{}'".format(db))
-        conn.close()
+        log.debug("Ending request to mongodb '{}'".format(db))
+        request.registry.mongodb_connection.end_request()
 
     request.add_finished_callback(cleanup)
-    return conn[db]
+    request.registry.mongodb_connection.start_request()
+    return request.registry.mongodb_connection[request.registry.mongodb_database]
