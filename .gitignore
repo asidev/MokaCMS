@@ -2,3 +2,4 @@ MokaCMS.egg-info/
 dist/
 __pycache__/
 .env
+moka.ini

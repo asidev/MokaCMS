@@ -10,6 +10,7 @@ requires = [
     'pyramid>=1.3',
     'pyramid_debugtoolbar',
     'waitress',
+    'cement',
     'pymongo'
     ]
 
@@ -39,5 +40,7 @@ setup(name='MokaCMS',
       entry_points="""\
       [paste.app_factory]
       main = mokacms:main
+      [console_scripts]
+      moka = mokacms.cli.app:main
       """,
       )
