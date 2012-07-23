@@ -2,6 +2,7 @@
 
 import os
 import sys
+import logging.config
 from paste.deploy import loadapp
 
 try:
@@ -21,6 +22,7 @@ except IOError:
 
 
 os.environ['uWSGI_VHOST_MODE'] = '1'
+logging.config.fileConfig(os.environ['USERVE_PASTE_INI'])
 application = loadapp("config:%s" % (os.environ['USERVE_PASTE_INI']))
 del os.environ['USERVE_PASTE_INI']
 
