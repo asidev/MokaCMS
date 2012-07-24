@@ -11,6 +11,8 @@ requires = [
     'pyramid_debugtoolbar',
     'waitress',
     'cement',
+    "colander",
+    "beautifulsoup4",
     'pymongo'
     ]
 

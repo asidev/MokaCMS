@@ -12,10 +12,8 @@ def main(global_config, **settings):
     config.scan()
     return config.make_wsgi_app()
 
-def add_routes(config, settings):
 
-    config.add_static_view('static', 'static', cache_max_age=3600)
-
+def get_api_prefix(settings):
     api_prefix = settings.get("mokacms.api.prefix", "/api")
     if not api_prefix.startswith("/"):
         api_prefix = "/{}".format(api_prefix)
@@ -30,7 +28,17 @@ def add_routes(config, settings):
 
     pfx = "{}/v{}".format(api_prefix, api_version)
     log.info("Setting up API with prefix {}".format(pfx))
-    config.add_route("api", pfx)
+    return pfx
+
+
+def add_routes(config, settings):
+    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_route("api", get_api_prefix(settings))
+
+    config.add_route("homepage", "/")
+    config.add_route("favicon", "/favicon.ico")
+    config.add_route("robots", "robots.txt")
+    config.add_route("page", "/*{path:.*}")
 
 
 def mongodb_connect(config, settings):

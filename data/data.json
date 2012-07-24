@@ -1,16 +1,7 @@
 {
 	"themes": [
 		{
-			"name": [
-				{
-					"language": "en",
-					"text": "Test Theme"
-				},
-				{
-					"language": "it",
-					"text": "Tema di test"
-				}
-			],
+			"name": "moka",
 			"templates": [
 				{
 					"name": [
@@ -82,8 +73,8 @@
 					"url": "/it/chisiamo.html"
 				}
 			],
-			"homepage": "True",
-			"enabled": "True"
+			"homepage": true,
+			"enabled": true
 		},
 		{
 			"url": "/it/chisiamo.html",
@@ -121,24 +112,24 @@
 					"url": "/en/aboutus.html"
 				}
 			],
-			"homepage": "True",
-			"enabled": "True"
+			"homepage": true,
+			"enabled": true
 		},
 		{
 			"url": "/en/products.html",
 			"redirect": {
 				"url": "/en/services.html",
-				"code": "301"
+				"code": 301
 			},
-			"enabled": "True"
+			"enabled": true
 		},
 		{
 			"url": "/en/homepage.html",
 			"redirect": {
 				"url": "/en/aboutus.html",
-				"code": "301"
+				"code": 301
 			},
-			"enabled": "False"
+			"enabled": false
 		},
 		{
 			"url": "/en/services.html",
@@ -171,25 +162,24 @@
 				}
 			],
 			"translations": [],
-			"homepage": "True",
-			"enabled": "False"
+			"homepage": true,
+			"enabled": false
 		}
 	],
 	"menus": [
 		{
 			"name": "main-menu",
-			"content": [
+			"translations": [
 		    	{
 					"language": "en",
 					"items": [
 						{
 							"label": "Company",
-							"url": "/en/aboutus.html",
 							"children": [
 								{
 									"label": "About Us",
 									"url": "/en/aboutus.html",
-									"children": []
+									"children" : []
 								}
 							]
 						}

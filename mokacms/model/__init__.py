@@ -1,6 +1,12 @@
 import logging
 log = logging.getLogger(__name__)
 
+from .page import Page
+from .menu import Menu
+from .theme import Theme
+
+__all__ = ['Menu', 'Page', 'Theme', 'mongodb_start_request']
+
 
 def mongodb_start_request(request):
     """Return the connection to the configured database.
