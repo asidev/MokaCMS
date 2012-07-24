@@ -41,7 +41,7 @@ def add_routes(config, settings):
     config.add_route("favicon", "/favicon.ico")
     config.add_route("sitemap", "/sitemap.xml")
     config.add_route("robots", "robots.txt")
-    config.add_route("page", "/*{path:.*}")
+    config.add_route("page", "/*path")
 
 
 def mongodb_connect(config, settings):

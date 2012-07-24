@@ -9,7 +9,7 @@ __all__ = ['URI', 'UrlPath']
 
 class URI(SchemaType):
     def serialize(self, node, appstruct):
-        if appstruct is null:
+        if appstruct is null or appstruct is None:
             return null
 
         if not isinstance(appstruct, str):
@@ -23,7 +23,7 @@ class URI(SchemaType):
         return appstruct
 
     def deserialize(self, node, cstruct):
-        if cstruct is null:
+        if cstruct is null or cstruct is None:
             return null
 
         if not isinstance(cstruct, str):
@@ -39,6 +39,9 @@ class URI(SchemaType):
 
 class UrlPath(SchemaType):
     def serialize(self, node, appstruct):
+        if appstruct is null or appstruct is None:
+            return null
+
         uri_validator = URI()
         try:
             uri_validator.serialize(None, appstruct)
@@ -52,6 +55,9 @@ class UrlPath(SchemaType):
         return appstruct
 
     def deserialize(self, node, cstruct):
+        if cstruct is null or cstruct is None:
+            return null
+
         uri_validator = URI()
         try:
             uri_validator.deserialize(None, cstruct)

@@ -2,11 +2,13 @@
 import logging
 import os
 from pyramid.httpexceptions import (HTTPFound,
-                                   HTTPNotFound)
+                                   HTTPNotFound,
+                                   HTTPRedirection)
 from pyramid.renderers import render_to_response
 from pyramid.response import FileResponse
 from pyramid.view import view_config
-from mokacms.model import Page
+from mokacms.model import (Page,
+                           Menu)
 log = logging.getLogger(__name__)
 
 
@@ -28,16 +30,16 @@ def default_homepage(request):
 
 @view_config(route_name='page')
 def serve_page(request):
-    path = request.matchdict['path']
+    path = "/" + "/".join(request.matchdict['path'])
     page = Page.get(request.mdb, path)
-    self.log.debug("found page: {}".format(page))
+    log.debug("found page: {}".format(page))
     if not page:
         return HTTPNotFound()
     try:
         return HTTPRedirection(code=page.redirect['code'],
                                     location=page.redirect['url'])
     except AttributeError:
-        menus = Menu.get(request.mdb, default_lang)
+        menus = Menu.get(request.mdb, page.language)
 
         return render_to_response(page.template,
                           {'page': page.to_dict(),
