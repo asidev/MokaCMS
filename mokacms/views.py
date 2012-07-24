@@ -24,7 +24,7 @@ def default_homepage(request):
     return HTTPFound(location=page.url)
 
 
-@view_config(rout_name='page')
+@view_config(route_name='page')
 def serve_page(request):
     path = request.matchdict['path']
     page = Page.get(request.mdb, path)
@@ -43,6 +43,7 @@ def serve_page(request):
                           request=request)
 
 
-@view_config(route_name='sitemap', renderer='json')
+@view_config(route_name='sitemap', renderer='sitemap.mako')
 def sitemap(request):
-    return list(Page.all(request.mdb, raw=True))
+    return dict(pages=Page.all(request.mdb),
+                requrst=request)

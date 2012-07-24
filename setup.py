@@ -13,6 +13,7 @@ requires = [
     'cement',
     "colander",
     "beautifulsoup4",
+    "mako",
     'pymongo'
     ]
 

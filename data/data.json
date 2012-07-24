@@ -45,6 +45,10 @@
 			"template": "/standard_page.mako",
 			"language": "en",
 			"title": "About Us",
+			"sitemap": {
+				"priority": 0.8,
+				"changefreq": "yearly"
+			},
 			"head": {
 				"meta": [
 					{

@@ -37,6 +37,7 @@ def add_routes(config, settings):
 
     config.add_route("homepage", "/")
     config.add_route("favicon", "/favicon.ico")
+    config.add_route("sitemap", "/sitemap.xml")
     config.add_route("robots", "robots.txt")
     config.add_route("page", "/*{path:.*}")
 
