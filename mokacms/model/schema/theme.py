@@ -14,7 +14,7 @@ class TemplateWidgetArgsSchema(colander.SequenceSchema):
 
 
 class TemplateWidgetSchema(colander.MappingSchema):
-    name = colander.SchemaNode(colander.String)
+    name = colander.SchemaNode(colander.String())
     args = TemplateWidgetArgsSchema()
 
 
@@ -32,7 +32,7 @@ class TemplateNamesSchema(colander.SequenceSchema):
 
 
 class TemplateSchema(colander.MappingSchema):
-    names = TemplateNamesSchema()
+    name = TemplateNamesSchema()
     file = colander.SchemaNode(UrlPath())
     widgets = TemplateWidgetsSchema()
 
