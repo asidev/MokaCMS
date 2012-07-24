@@ -4,6 +4,7 @@ import os
 import sys
 from cement.core import controller
 from . base import MokaBaseController
+import mokacms.model
 
 class MokaDatabaseController(MokaBaseController):
     class Meta:
@@ -48,10 +49,16 @@ class MokaDatabaseController(MokaBaseController):
             for collection_name, info in data.items():
                 self.log.info("Importing data for collection '{}'"\
                               .format(collection_name))
+
                 collection = getattr(self.app.mdb, collection_name)
+                cls = getattr(mokacms.model, collection_name.title()[:-1])
+
                 if not self.pargs.keep:
                     collection.remove({})
-                collection.insert(info)
+
+                for elem in info:
+                    obj = cls(elem)
+                    obj.save(self.app.mdb)
 
             self.log.info("Done")
 
