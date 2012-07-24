@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from pyramid.config import Configurator
 import logging
 import sys
@@ -33,7 +34,8 @@ def get_api_prefix(settings):
 
 def add_routes(config, settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route("api", get_api_prefix(settings))
+    config.registry.api_prefix = get_api_prefix(settings)
+    config.add_route("api", config.registry.api_prefix)
 
     config.add_route("homepage", "/")
     config.add_route("favicon", "/favicon.ico")
