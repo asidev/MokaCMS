@@ -47,7 +47,6 @@ class MokaModel:
         info = objinfo__ if objinfo__ else kwargs
         object.__setattr__(self, "_objinfo", {})
         self._objinfo = self.schema.deserialize(info)
-        self._updated = False
         self._updated_values = set()
         self._objid = info.get('_id', None)
 
@@ -60,7 +59,6 @@ class MokaModel:
 
     def __setattr__(self, attr, value):
         if attr in self._objinfo:
-            self._updated = True
             self._updated_attrs.add(attr)
             self._objinfo[attr] = value
         else:
@@ -80,7 +78,6 @@ class MokaModel:
             self.__class__.log.debug("Updating object %s", self._objid)
             values = {k: self._objinfo[k] for k in self._updated_attrs}
             self.collection(db).update({"_id": self._objid}, {"$set": values})
-            self._updated = False
             self._updated_attrs = set()
         else:
             self.__class__.log.debug("Creating object %s", self._objinfo)
