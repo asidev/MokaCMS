@@ -3,6 +3,7 @@ from pyramid.config import Configurator
 import logging
 import sys
 import pymongo
+from mokacms.model import init_model
 log = logging.getLogger(__name__)
 
 def main(global_config, **settings):
@@ -68,6 +69,10 @@ def mongodb_connect(config, settings):
 
     config.set_request_property("mokacms.model.mongodb_start_request", 
                                 name="mdb", reify=True)
+
+    # Init model
+    with config.registry.mongodb_connection.start_request():
+        init_model(config.registry.mongodb_connection[db])
 
 
 def includeme(config):

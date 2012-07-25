@@ -23,3 +23,11 @@ def mongodb_start_request(request):
     request.registry.mongodb_connection.start_request()
     log.debug("Starting MongoDB request")
     return request.registry.mongodb_connection[request.registry.mongodb_database]
+
+
+def init_model(database):
+    """ Set up indexes on collections """
+    log.info("init_model: creating indexes")
+    database.themes.ensure_index("templates.file", unique=True)
+    database.pages.ensure_index("url", unique=True)
+    database.menus.ensure_index("name", unique=True)
