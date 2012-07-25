@@ -10,4 +10,4 @@ class Menu(MokaModel):
 
     @classmethod
     def get(cls, db, value, raw=False):
-        return cls.find(db, raw, {cls.default_get_attr: value})
+        return cls.find(db, {cls.default_get_attr: value}, raw_=raw)
