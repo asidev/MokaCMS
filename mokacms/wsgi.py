@@ -4,11 +4,16 @@ import os
 import sys
 import logging.config
 from paste.deploy import loadapp
+try:
+    import uwsgi
+    os.environ['uWSGI_VHOST_MODE'] = '1'
+
+except ImportError:
+    pass
 
 try:
     ini = os.environ['USERVE_PASTE_INI']
     f = open(ini)
-    f.close()
 
 except KeyError:
     sys.stderr.write("Missing ini\n")
@@ -20,9 +25,10 @@ except IOError:
     sys.stderr.flush()
     sys.exit(3)
 
+else:
+    f.close()
+    del os.environ['USERVE_PASTE_INI']
 
-os.environ['uWSGI_VHOST_MODE'] = '1'
-logging.config.fileConfig(os.environ['USERVE_PASTE_INI'])
-application = loadapp("config:%s" % (os.environ['USERVE_PASTE_INI']))
-del os.environ['USERVE_PASTE_INI']
 
+logging.config.fileConfig(ini)
+application = loadapp("config:%s" % (ini))

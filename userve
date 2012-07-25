@@ -1,9 +1,68 @@
 #!/bin/bash
-[ -z $1 ] && echo "Missing ini file" && exit 2
-INI=$(realpath $1)
-shift
-PYHOME=""
-CORES=$(grep "processor" /proc/cpuinfo | wc -l)
-[ -z $VIRTUAL_ENV ] || PYHOME="--pyhome $VIRTUAL_ENV"
-#USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy -p $CORES --cheaper 1 "$@"
-USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy "$@" --touch-reload $INI
+# [ -z $1 ] && echo "Missing ini file" && exit 2
+# INI=$(realpath $1)
+# shift
+# PYHOME=""
+# CORES=$(grep "processor" /proc/cpuinfo | wc -l)
+# [ -z $VIRTUAL_ENV ] || PYHOME="--pyhome $VIRTUAL_ENV"
+# #USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy -p $CORES --cheaper 1 "$@"
+# USERVE_PASTE_INI="$INI" uwsgi --module mokacms.wsgi $PYHOME --ini $INI --lazy "$@" --touch-reload $INI
+
+set -e
+set -u
+
+development=true
+module="mokacms.wsgi"
+pyhome=""
+uwsgi="uwsgi"
+
+function usage() {
+	def_msg=""
+	echo ${1-$def_msg}
+	echo "$0 [-p] [-m <module>] [-H <virtual_env>] <ini_file>"
+	echo
+	echo "-p  : disable development options (reload, etc) and enable multiprocessing"
+	echo "-m  : wsgi module to run. defaults to 'mokacms.wsgi'"
+	echo "-H  : path to the virtualenv. If omitted, \$VIRTUAL_ENV is used (if any)."
+	echo "-u  : uwsgi binary (default: search in \$PATH)."
+	exit ${2-0}
+}
+
+[ -z $VIRTUAL_ENV ] || pyhome="--pyhome $VIRTUAL_ENV"
+
+while getopts ":u:pm:H:h" opt; do
+	case $opt in
+	p)
+		development=false
+		;;
+	m)
+		module=$OPTARG
+		;;
+	H)
+		pyhome="--pyhome $OPTARG"
+		;;
+	h)
+		usage "Serve MokaCMS using uWSGI"
+		;;
+	u)
+		uwsgi="$OPTARG"
+		;;
+	\?)
+		echo "Invalid option -$OPTARG" >&2
+		exit 100
+		;;
+	:)
+		echo "Option -$OPTARG requires an argument" >&2
+		exit 101
+		;;
+	esac
+done
+
+[ $# -lt $OPTIND ] && usage "Missing ini file."
+ini=$(realpath ${!OPTIND})
+opts="--ini $ini --module $module $pyhome --single-interpreter --lazy"
+if $development; then
+	opts="$opts --py-auto-reload 1 --disable-logging --touch-reload $ini"
+fi
+
+USERVE_PASTE_INI="$ini" $uwsgi $opts
