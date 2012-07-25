@@ -6,6 +6,7 @@ __all__ = ['PageSchema']
 CHANGEFREQ = ('always', 'hourly', 'daily', 'weekly',
               'monthly', 'yearly', 'never')
 
+
 class SitemapSchema(colander.MappingSchema):
     priority = colander.SchemaNode(colander.Float(),
                                    validator=colander.Range(min=0.0, max=1.0),
