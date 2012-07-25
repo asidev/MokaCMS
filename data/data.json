@@ -21,7 +21,7 @@
 							"args": [
 								{
 									"name": "limit",
-									"value": "10"
+									"value": 10
 								}
 							]
 						},
@@ -30,7 +30,7 @@
 							"args": [
 								{
 									"name": "limit",
-									"value": "10"
+									"value": 10
 								}
 							]
 						}
