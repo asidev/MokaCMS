@@ -31,18 +31,23 @@ def default_homepage(request):
 @view_config(route_name='page')
 def serve_page(request):
     path = "/" + "/".join(request.matchdict['path'])
-    page = Page.get(request.mdb, path)
-    log.debug("found page: {}".format(page))
-    if not page:
+    try:
+        page = Page.get(request.mdb, path)
+
+    except:
         return HTTPNotFound()
+
+    log.debug("Found page: {}".format(page))
     try:
         return HTTPRedirection(code=page.redirect['code'],
                                     location=page.redirect['url'])
     except AttributeError:
         menus = Menu.get(request.mdb, page.language)
-
+        page_d = page.to_dict()
+        page_d['widgets'] = page.run_widgets(request)
+        log.debug("Rendering template %s", page.template)
         return render_to_response(page.template,
-                          {'page': page.to_dict(),
+                          {'page': page_d,
                            'menus': [menu.to_dict() for menu in menus]},
                           request=request)
 

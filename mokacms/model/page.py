@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 from .base import MokaModel
+from .theme import Theme
 from .schema import (PageSchema,
                      RedirectSchema)
+from pyramid.path import DottedNameResolver
+
 
 class Page(MokaModel):
     collection_name = 'pages'
@@ -26,7 +29,33 @@ class Page(MokaModel):
 class Content(Page):
     schema = PageSchema()
 
+    def run_widgets(self, request):
+        theme = request.registry.settings['mokacms.theme']
+        db = request.mdb
+        self.log.debug("Running widgets for %s, (theme: %s)", self, theme)
+        resolver = DottedNameResolver()
+        theme = Theme.get(db, theme)
+        widgets = []
+        result = {}
+
+        for template in theme.templates:
+            if template['file'] == self.template:
+                widgets = template["widgets"]
+
+        self.log.debug("Found widgets: %s", widgets)
+        for widget in widgets:
+            cname = widget['name']
+            args = {a['name']: a['value'] for a in widget['args']}
+            self.log.debug("Excecuting %s with args %s", cname, args)
+            try:
+                result[cname] = resolver.resolve(cname)(request, **args)
+
+            except:
+                self.log.exception("Error while running widget %s with args %s",
+                                   cname, args)
+                raise
+
+        return result
 
 class Redirect(Page):
     schema = RedirectSchema()
-
