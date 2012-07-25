@@ -51,9 +51,11 @@ def serve_page(request):
 def sitemap(request):
     return dict(pages=Page.all(request.mdb))
 
+
 @view_config(route_name='robots', renderer='robots.mako')
 def robots(request):
     return dict()
+
 
 @view_config(route_name='favicon')
 def favicon(request):
