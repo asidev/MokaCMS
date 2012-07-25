@@ -56,4 +56,6 @@ if $development; then
 	opts="$opts --py-auto-reload 1 --disable-logging --touch-reload $ini"
 fi
 
-USERVE_PASTE_INI="$ini" $uwsgi $opts
+cmd="$uwsgi $opts"
+echo "Starting uWSGI: $cmd"
+USERVE_PASTE_INI="$ini" $cmd
