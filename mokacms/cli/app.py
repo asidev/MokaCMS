@@ -9,7 +9,9 @@ from mokacms.cli.base import MokaBaseController
 from mokacms.cli.output import MokaOutputHandler
 import cement.ext.ext_json
 from pyramid.decorator import reify
+from pyramid.paster import bootstrap
 from pymongo import Connection
+import logging
 
 
 DEFAULT_INI_NAME =  'moka.ini'
@@ -30,32 +32,35 @@ class MokaApp(foundation.CementApp):
         output_handler = MokaOutputHandler
 
     @reify
-    def pyramid_config(self):
-        self.log.debug("Parsing pyramid config")
-        sect = "app:main"
-        self.config.parse_file(self.pargs.ini)
-        return {k: self.config.get(sect, k) for k in self.config.keys(sect)}
-
+    def mdb(self):
+        r = self.pyramid_app['registry']
+        return r.mongodb_connection[r.mongodb_database]
 
     @reify
-    def mongodb_connection(self):
-        pfx = "mongo"
-        self.log.debug("Connecting to mongodb")
-        conn = Connection(**{
-            k.replace("mongodb.", ""): v for k,v in self.pyramid_config.items()
-            if k.startswith("mongodb.") and k != "mongodb.database"
-        })
+    def pyramid_app(self):
+        self.log.debug("Bootstrapping pyramid application")
+        # setup logging
+        logger = logging.getLogger("mokacms")
+        current_level = self.log.level()
+        logger.setLevel(current_level)
+        ch = logging.StreamHandler()
+        formatter = logging.Formatter("%(levelname)s: [mokacms] %(message)s")
+        ch.setLevel(current_level)
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
+
+        env = bootstrap(self.pargs.ini)
 
         def cleanup(_):
-            self.log.debug("Closing connection to mongodb")
-            conn.close()
+            self.log.debug("Calling pyramid app closer")
+            env['closer']()
 
         hook.register("pre_close", cleanup)
-        return conn
+        return env
 
     @reify
-    def mdb(self):
-        return self.mongodb_connection[self.pyramid_config['mongodb.database']]
+    def pyramid_settings(self):
+        return self.pyramid_app['registry'].settings
 
     def render(self):
         try:
