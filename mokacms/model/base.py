@@ -15,14 +15,16 @@ class MokaModel:
         return getattr(db, cls.collection_name)
 
     @classmethod
-    def find(cls, db, raw=False, *args, **kwargs):
+    def find(cls, db, *args, **kwargs):
+        raw = kwargs.pop("raw_", False)
         def conv(obj):
             return obj if raw else cls(obj)
 
         return (conv(p) for p in cls.collection(db).find(*args, **kwargs) if p)
 
     @classmethod
-    def find_one(cls, db, raw=False, *args, **kwargs):
+    def find_one(cls, db, *args, **kwargs):
+        raw = kwargs.pop("raw_", False)
         def conv(obj):
             return obj if raw else cls(obj)
 
@@ -33,15 +35,15 @@ class MokaModel:
 
     @classmethod
     def all(cls, db, raw=False):
-        return cls.find(db, raw)
+        return cls.find(db, raw_=raw)
 
     @classmethod
     def get(cls, db, value, raw=False):
-        return cls.find_one(db, raw, {cls.default_get_attr: value})
+        return cls.find_one(db, {cls.default_get_attr: value})
 
     @classmethod
     def get_by(cls, db, attr, value, raw=False):
-        return cls.find_one(db, raw, {attr: value})
+        return cls.find_one(db, {attr: value}, raw_=raw)
 
     def __init__(self, objinfo__=None, **kwargs):
         info = objinfo__ if objinfo__ else kwargs
