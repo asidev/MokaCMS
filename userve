@@ -5,4 +5,5 @@ shift
 PYHOME=""
 CORES=$(grep "processor" /proc/cpuinfo | wc -l)
 [ -z $VIRTUAL_ENV ] || PYHOME="--pyhome $VIRTUAL_ENV"
-USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy -p $CORES --cheaper 1 "$@"
+#USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy -p $CORES --cheaper 1 "$@"
+USERVE_PASTE_INI="$INI" uwsgi --module wsgi $PYHOME --ini $INI --lazy "$@"
