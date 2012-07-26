@@ -5,6 +5,7 @@ from cement.core import (handler,
                          foundation)
 
 from mokacms.cli.database import MokaDatabaseController
+from mokacms.cli.module import MokaModuleController
 from mokacms.cli.base import MokaBaseController
 from mokacms.cli.output import MokaOutputHandler
 import cement.ext.ext_json
@@ -51,6 +52,7 @@ class MokaApp(foundation.CementApp):
 
         try:
             env = bootstrap(self.pargs.ini)
+
         except:
             self.log.exception("Cannot bootstrap application")
             raise
@@ -80,6 +82,7 @@ class MokaApp(foundation.CementApp):
 def main():
     app = MokaApp()
     handler.register(MokaDatabaseController)
+    handler.register(MokaModuleController)
     cement.ext.ext_json.load()
 
     try:
