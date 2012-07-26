@@ -6,12 +6,13 @@ from .schema import ModuleSchema
 
 class Module(MokaModel):
     collection_name = 'modules'
-    default_get_attr = 'name'
+    default_get_attr = 'module'
     Schema = ModuleSchema
 
     @classmethod
     def inspect(cls, module):
         """ Inspect a module and return a new Module model"""
+
         functions = []
         module_name = module.__name__
         module_version = getattr(module, "__version__", None)
