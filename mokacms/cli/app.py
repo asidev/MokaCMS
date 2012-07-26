@@ -49,7 +49,11 @@ class MokaApp(foundation.CementApp):
         ch.setFormatter(formatter)
         logger.addHandler(ch)
 
-        env = bootstrap(self.pargs.ini)
+        try:
+            env = bootstrap(self.pargs.ini)
+        except:
+            self.log.exception("Cannot bootstrap application")
+            raise
 
         def cleanup(_):
             self.log.debug("Calling pyramid app closer")
