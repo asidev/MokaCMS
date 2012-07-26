@@ -28,3 +28,4 @@ class MokaModuleController(MokaBaseController):
             mod = Module.inspect(module)
             mod.save(self.app.mdb)
             self.log.info("Saved module %s to database" % (mod))
+            self.result = {"success": True}

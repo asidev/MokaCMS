@@ -7,5 +7,6 @@ class MokaOutputHandler(output.CementOutputHandler):
         label = 'moka'
 
     def render(self, data, template=None):
+        print("Result data:")
         for k, v in data.items():
             print("{} => {}".format(k, v))
