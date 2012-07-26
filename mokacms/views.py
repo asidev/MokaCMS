@@ -43,12 +43,12 @@ def serve_page(request):
                                     location=page.redirect['url'])
     except AttributeError:
         menus = Menu.get(request.mdb, page.language)
-        page_d = page.to_dict()
+        page_d = page.asdict()
         page_d['widgets'] = page.run_widgets(request)
         log.debug("Rendering template %s", page.template)
         return render_to_response(page.template,
                           {'page': page_d,
-                           'menus': [menu.to_dict() for menu in menus]},
+                           'menus': [menu.asdict() for menu in menus]},
                           request=request)
 
 

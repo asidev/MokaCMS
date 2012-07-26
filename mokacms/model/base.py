@@ -66,7 +66,7 @@ class MokaModel:
         else:
             object.__setattr__(self, attr, value)
 
-    def to_dict(self):
+    def asdict(self):
         return self._objinfo.copy()
 
     def flatten(self):
