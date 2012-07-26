@@ -107,3 +107,6 @@ class MokaModel:
             del self._id
         else:
             self.log.warn("Cannot drop non-created object: %s", self._objinfo)
+
+    def __repr__(self):
+        return "<%s %s>" % (self.__class__.__name__, self._objinfo)
