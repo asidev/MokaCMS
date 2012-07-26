@@ -11,7 +11,7 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     includeme(config)
-    config.scan()
+    config.scan("mokacms.views")
     return config.make_wsgi_app()
 
 
