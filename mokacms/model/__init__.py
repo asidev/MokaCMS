@@ -4,6 +4,7 @@ log = logging.getLogger(__name__)
 from .page import Page
 from .menu import Menu
 from .theme import Theme
+from .module import Module
 
 __all__ = ['Menu', 'Page', 'Theme', 'mongodb_start_request']
 

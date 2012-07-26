@@ -17,7 +17,7 @@
 					"file": "/standard_page.mako",
 					"widgets": [
 						{
-							"name": "mokacms.widgets.news.latest",
+							"callable": "mokacms.widgets.news.latest",
 							"args": [
 								{
 									"name": "limit",
@@ -26,7 +26,7 @@
 							]
 						},
 						{
-							"name": "mokacms.widgets.galleries.latest",
+							"callable": "mokacms.widgets.galleries.latest",
 							"args": [
 								{
 									"name": "limit",

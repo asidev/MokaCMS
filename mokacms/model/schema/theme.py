@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import colander
-from .types import UrlPath
+from .validators import Path
 from .widget import WidgetSchema
 __all__ = ['ThemeSchema']
 
@@ -20,7 +20,7 @@ class TemplateNamesSchema(colander.SequenceSchema):
 
 class TemplateSchema(colander.MappingSchema):
     name = TemplateNamesSchema()
-    file = colander.SchemaNode(UrlPath())
+    file = colander.SchemaNode(colander.String(), validator=Path)
     widgets = TemplateWidgetsSchema()
 
 

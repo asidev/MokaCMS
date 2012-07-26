@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import colander
-from .types import URI
+from .validators import URI
 __all__ = ['MenuSchema']
 
 
 class MenuItem(colander.MappingSchema):
     label = colander.SchemaNode(colander.String())
-    url = colander.SchemaNode(URI(), default=None, missing=None)
+    url = colander.SchemaNode(colander.String(), default=None, missing=None,
+                              validator=URI)
     #children = MenuItems()
 
 

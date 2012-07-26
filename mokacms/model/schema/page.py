@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import colander
 from mokacms.utils import clean_html
-from mokacms.model.schema.types import UrlPath
+from .validators import Path
 __all__ = ['PageSchema']
 CHANGEFREQ = ('always', 'hourly', 'daily', 'weekly',
               'monthly', 'yearly', 'never')
@@ -19,7 +19,7 @@ class SitemapSchema(colander.MappingSchema):
 
 class TranslationSchema(colander.MappingSchema):
     language = colander.SchemaNode(colander.String())
-    url = colander.SchemaNode(UrlPath())
+    url = colander.SchemaNode(colander.String(), validator=Path)
 
 
 class TranslationsSchema(colander.SequenceSchema):
@@ -58,7 +58,7 @@ class PageHeadSchema(colander.MappingSchema):
 
 
 class PageSchema(colander.MappingSchema):
-    url = colander.SchemaNode(UrlPath())
+    url = colander.SchemaNode(colander.String(), validator=Path)
     template = colander.SchemaNode(colander.String(),
                                    default=None)
     language = colander.SchemaNode(colander.String(),
