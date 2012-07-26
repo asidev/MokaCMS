@@ -16,7 +16,7 @@ try:
     f = open(ini)
 
 except KeyError:
-    sys.stderr.write("Missing ini\n")
+    sys.stderr.write("Missing USERVE_PASTE_INI in environment\n")
     sys.stderr.flush()
     sys.exit(2)
 
