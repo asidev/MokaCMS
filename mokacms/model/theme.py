@@ -6,4 +6,4 @@ from .schema import ThemeSchema
 class Theme(MokaModel):
     collection_name = 'themes'
     default_get_attr = 'name'
-    schema = ThemeSchema()
+    Schema = ThemeSchema

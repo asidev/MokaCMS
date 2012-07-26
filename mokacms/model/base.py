@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import json
 import logging
 from mokacms.utils import classproperty
 from mokacms.model.exceptions import NoResult
@@ -48,8 +49,10 @@ class MokaModel:
     def __init__(self, objinfo__=None, **kwargs):
         info = objinfo__ if objinfo__ else kwargs
         object.__setattr__(self, "_objinfo", {})
+
+        self.schema = self.Schema()
         self._objinfo = self.schema.deserialize(info)
-        self._updated_values = set()
+        self._updated_attrs = set()
         self._objid = info.get('_id', None)
 
     def __getattr__(self, attr):
@@ -61,13 +64,23 @@ class MokaModel:
 
     def __setattr__(self, attr, value):
         if attr in self._objinfo:
+            value = getattr(self.Schema, attr).deserialize(value)
             self._updated_attrs.add(attr)
             self._objinfo[attr] = value
         else:
             object.__setattr__(self, attr, value)
 
-    def asdict(self):
-        return self._objinfo.copy()
+    def serialize(self):
+        return self.schema.serialize(self._objinfo)
+
+    asdict = serialize
+
+    def asjson(self):
+        return json.dumps(self.serialize())
+
+    @classmethod
+    def fromjson(cls, json_data):
+        return cls(json.loads(json_data))
 
     def flatten(self):
         return self.schema.flatten(self._objinfo)
@@ -81,9 +94,10 @@ class MokaModel:
             values = {k: self._objinfo[k] for k in self._updated_attrs}
             self.collection(db).update({"_id": self._objid}, {"$set": values})
             self._updated_attrs = set()
+
         else:
             self.__class__.log.debug("Creating object %s", self._objinfo)
-            self._objid = self.collection(db).insert(self._objinfo)
+            self._objid = self.collection(db).insert(self.serialize())
 
     def delete(self, db):
         if self._objid:

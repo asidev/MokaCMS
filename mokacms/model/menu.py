@@ -6,7 +6,7 @@ from .schema import MenuSchema
 class Menu(MokaModel):
     collection_name = 'menus'
     default_get_attr = 'translations.language'
-    schema = MenuSchema()
+    Schema = MenuSchema
 
     @classmethod
     def get(cls, db, value, raw=False):

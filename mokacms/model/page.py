@@ -27,7 +27,7 @@ class Page(MokaModel):
 
 
 class Content(Page):
-    schema = PageSchema()
+    Schema = PageSchema
 
     def run_widgets(self, request):
         theme = request.registry.settings['mokacms.theme']
@@ -61,4 +61,4 @@ class Content(Page):
         return result
 
 class Redirect(Page):
-    schema = RedirectSchema()
+    Schema = RedirectSchema
