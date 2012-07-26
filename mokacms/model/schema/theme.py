@@ -1,25 +1,12 @@
 #!/usr/bin/env python
 import colander
 from .types import UrlPath
+from .widget import WidgetSchema
 __all__ = ['ThemeSchema']
 
 
-class TemplateWidgetArgSchema(colander.MappingSchema):
-    name = colander.SchemaNode(colander.String())
-    value = colander.SchemaNode(colander.String())
-
-
-class TemplateWidgetArgsSchema(colander.SequenceSchema):
-    arg = TemplateWidgetArgSchema()
-
-
-class TemplateWidgetSchema(colander.MappingSchema):
-    name = colander.SchemaNode(colander.String())
-    args = TemplateWidgetArgsSchema()
-
-
 class TemplateWidgetsSchema(colander.SequenceSchema):
-    widget = TemplateWidgetSchema()
+    widget = WidgetSchema()
 
 
 class TemplateNameSchema(colander.MappingSchema):

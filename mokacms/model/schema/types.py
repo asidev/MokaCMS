@@ -69,3 +69,17 @@ class UrlPath(SchemaType):
             raise Invalid("not a path: %r".format(cstruct))
 
         return cstruct
+
+
+class Raw(SchemaType):
+    def serialize(self, node, appstruct):
+        if appstruct is null or appstruct is None:
+            return null
+
+        return appstruct
+
+    def deserialize(self, node, cstruct):
+        if cstruct is null or cstruct is None:
+            return null
+
+        return cstruct
