@@ -14,6 +14,13 @@ class classproperty(property):
         return self.fset.__get__(None, cls)(value)
 
 
+def pshell_setup(env):
+  env['mongodb_connection'] = env['registry'].mongodb_connection
+  env['mdb'] = env['mongodb_connection'][env['registry'].mongodb_database]
+  import mokacms.model
+  env['m'] = mokacms.model
+
+
 # Temporary solution until bleach/html5lib are ported to python3
 #http://stackoverflow.com/questions/699468/python-html-sanitizer-scrubber-filter
 acceptable_elements = ('a', 'abbr', 'acronym', 'address', 'area', 'b', 'big',
