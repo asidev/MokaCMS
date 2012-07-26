@@ -1,20 +1,9 @@
 #!/usr/bin/env/python
 
 from colander import Invalid
-from pyramid.path import DottedNameResolver
 import urllib.parse
 
-__all__ = ['DottedPythonName', "URI", "Path"]
-
-
-def DottedPythonName(node, value):
-
-    resolver = DottedNameResolver()
-    try:
-        resolver.resolve(value)
-
-    except ImportError as e:
-        raise Invalid(node, str(e))
+__all__ = ["URI", "Path"]
 
 
 def URI(node, value):

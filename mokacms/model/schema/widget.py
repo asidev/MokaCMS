@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import colander
-from .types import Raw
-from .validators import DottedPythonName
+from .types import (Raw,
+                    DottedPythonName)
 
 
 class WidgetArgSchema(colander.MappingSchema):
@@ -14,6 +14,5 @@ class WidgetArgsSchema(colander.SequenceSchema):
 
 
 class WidgetSchema(colander.MappingSchema):
-    callable = colander.SchemaNode(colander.String(),
-                                   validator=DottedPythonName)
+    callable = colander.SchemaNode(DottedPythonName())
     args = WidgetArgsSchema()

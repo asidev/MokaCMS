@@ -2,13 +2,15 @@
 import colander
 from mokacms.utils import clean_html
 from .validators import Path
+from .types import (Float,
+                    Boolean)
 __all__ = ['PageSchema']
 CHANGEFREQ = ('always', 'hourly', 'daily', 'weekly',
               'monthly', 'yearly', 'never')
 
 
 class SitemapSchema(colander.MappingSchema):
-    priority = colander.SchemaNode(colander.Float(),
+    priority = colander.SchemaNode(Float(),
                                    validator=colander.Range(min=0.0, max=1.0),
                                    default=0.5, missing=0.5)
     lastmod = colander.SchemaNode(colander.DateTime(), default=None,
@@ -16,6 +18,7 @@ class SitemapSchema(colander.MappingSchema):
     changefreq = colander.SchemaNode(colander.String(),
                                      validator=colander.OneOf(CHANGEFREQ),
                                      default=None, missing=None)
+
 
 class TranslationSchema(colander.MappingSchema):
     language = colander.SchemaNode(colander.String())
@@ -65,9 +68,9 @@ class PageSchema(colander.MappingSchema):
                                    default=None)
     title = colander.SchemaNode(colander.String(),
                                 default=None)
-    homepage = colander.SchemaNode(colander.Boolean(),
+    homepage = colander.SchemaNode(Boolean(),
                                    default=False)
-    enabled = colander.SchemaNode(colander.Boolean(),
+    enabled = colander.SchemaNode(Boolean(),
                                   default=False)
     head = PageHeadSchema()
     contents = ContentsSchema()
