@@ -48,7 +48,10 @@ class Content(Page):
             args = {a['name']: a['value'] for a in widget['args']}
             self.log.debug("Excecuting %s with args %s", cname, args)
             try:
-                result[cname] = resolver.resolve(cname)(request, **args)
+                result[cname] = dict(
+                    args=widget['args'],
+                    result=resolver.resolve(cname)(request, **args)
+                )
 
             except:
                 self.log.exception("Error while running widget %s with args %s",
