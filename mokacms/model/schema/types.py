@@ -41,6 +41,9 @@ class DottedPythonName(colander.SchemaType):
         if appstruct is colander.null or appstruct is None:
             return colander.null
 
+        if not hasattr(appstruct, "__module__"):
+            return appstruct.__name__
+
         return "{0}.{1}".format(appstruct.__module__, appstruct.__name__)
 
     def deserialize(self, node, cstruct):
