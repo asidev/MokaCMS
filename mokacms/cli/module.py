@@ -18,7 +18,6 @@ class MokaModuleController(MokaBaseController):
         module_name = self.pargs.module[0]
         self.log.info("Importing module %s" % module_name)
         resolver = DottedNameResolver()
-        a
         try:
             module = resolver.resolve(module_name)
 

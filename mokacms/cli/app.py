@@ -9,7 +9,9 @@ from cement.core import (handler,
 
 from mokacms.cli.database import MokaDatabaseController
 from mokacms.cli.module import MokaModuleController
+from mokacms.cli.compile import MokaCompileController
 from mokacms.cli.base import MokaBaseController
+from mokacms.cli.output import MokaOutputHandler
 import cement.ext.ext_json
 from pyramid.decorator import reify
 from pyramid.paster import bootstrap
@@ -31,11 +33,18 @@ class MokaApp(foundation.CementApp):
     class Meta:
         label = 'moka'
         base_controller = MokaBaseController
+        output_handler = MokaOutputHandler
 
     @reify
     def mdb(self):
         r = self.pyramid_app['registry']
         return r.mongodb_connection[r.mongodb_database]
+
+    @reify
+    def request(self):
+        req = self.pyramid_app['request']
+        req.mdb = self.mdb
+        return req
 
     @reify
     def pyramid_app(self):
@@ -88,6 +97,7 @@ def main():
     app = MokaApp()
     handler.register(MokaDatabaseController)
     handler.register(MokaModuleController)
+    handler.register(MokaCompileController)
     cement.ext.ext_json.load()
     data = dict(success=False)
 
@@ -100,11 +110,14 @@ def main():
         app.run()
 
     except Exception as e:
-        tb = traceback.format_tb(sys.exc_info()[2])
-        app.log.fatal("".join(tb))
+        typ, value, tb = sys.exc_info()
+        ftb = traceback.format_tb(tb)
+        app.log.fatal("{}: {}".format(typ.__name__, value))
+        app.log.fatal("".join(ftb))
         data = dict(success=False,
-                    message=str(e),
-                    traceback=tb)
+                    message=str(value),
+                    exception=typ.__name__,
+                    traceback=ftb)
     else:
         data = dict(success=True)
 
