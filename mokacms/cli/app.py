@@ -1,5 +1,8 @@
 #!/usr/bin/env python
+import logging
 import os
+import sys
+import traceback
 from cement.core import (handler,
                          hook,
                          foundation)
@@ -7,12 +10,10 @@ from cement.core import (handler,
 from mokacms.cli.database import MokaDatabaseController
 from mokacms.cli.module import MokaModuleController
 from mokacms.cli.base import MokaBaseController
-from mokacms.cli.output import MokaOutputHandler
 import cement.ext.ext_json
 from pyramid.decorator import reify
 from pyramid.paster import bootstrap
 from pymongo import Connection
-import logging
 
 
 DEFAULT_INI_NAME =  'moka.ini'
@@ -30,7 +31,6 @@ class MokaApp(foundation.CementApp):
     class Meta:
         label = 'moka'
         base_controller = MokaBaseController
-        output_handler = MokaOutputHandler
 
     @reify
     def mdb(self):
@@ -54,7 +54,7 @@ class MokaApp(foundation.CementApp):
             env = bootstrap(self.pargs.ini)
 
         except:
-            self.log.exception("Cannot bootstrap application")
+            self.log.error("Cannot bootstrap application")
             raise
 
         def cleanup(_):
@@ -68,15 +68,20 @@ class MokaApp(foundation.CementApp):
     def pyramid_settings(self):
         return self.pyramid_app['registry'].settings
 
-    def render(self):
+    def render(self, data=None):
+        ctrl_data = None
         try:
-            data = self.controller.result
+            ctrl_data = self.controller.result
 
         except AttributeError:
             pass
+        
+        if data and ctrl_data:
+            data.update(ctrl_data)
+        elif not data and ctrl_data:
+            data = ctrl_data
 
-        else:
-            return super(MokaApp, self).render(data)
+        return super(MokaApp, self).render(data)
 
 
 def main():
@@ -84,6 +89,7 @@ def main():
     handler.register(MokaDatabaseController)
     handler.register(MokaModuleController)
     cement.ext.ext_json.load()
+    data = dict(success=False)
 
     try:
         app.setup()
@@ -92,11 +98,21 @@ def main():
             default=DEFAULT_INI)
 
         app.run()
-        data = app.render()
-        if data:
-            print(data)
+
+    except Exception as e:
+        tb = traceback.format_tb(sys.exc_info()[2])
+        app.log.fatal("".join(tb))
+        data = dict(success=False,
+                    message=str(e),
+                    traceback=tb)
+    else:
+        data = dict(success=True)
 
     finally:
+        rendered = app.render(data)
+        if rendered:
+            print(rendered)
+
         app.close()
 
 

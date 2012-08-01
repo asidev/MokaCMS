@@ -18,6 +18,7 @@ class MokaModuleController(MokaBaseController):
         module_name = self.pargs.module[0]
         self.log.info("Importing module %s" % module_name)
         resolver = DottedNameResolver()
+        a
         try:
             module = resolver.resolve(module_name)
 
@@ -28,4 +29,3 @@ class MokaModuleController(MokaBaseController):
             mod = Module.inspect(module)
             mod.save(self.app.mdb)
             self.log.info("Saved module %s to database" % (mod))
-            self.result = {"success": True}

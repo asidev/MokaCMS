@@ -61,7 +61,6 @@ class MokaDatabaseController(MokaBaseController):
                     obj.save(self.app.mdb)
 
             self.log.info("Done")
-            self.result = dict(success=True)
 
         finally:
             if close:
