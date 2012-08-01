@@ -44,13 +44,14 @@ class Content(Page):
 
         self.log.debug("Found widgets: %s", widgets)
         for widget in widgets:
-            cname = widget['name']
+            callable_ = widget['callable']
+            cname = "{}.{}".format(callable_.__module__, callable_.__name__)
             args = {a['name']: a['value'] for a in widget['args']}
             self.log.debug("Excecuting %s with args %s", cname, args)
             try:
                 result[cname] = dict(
                     args=widget['args'],
-                    result=resolver.resolve(cname)(request, **args)
+                    result=callable_(request, **args)
                 )
 
             except:
