@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import os
-import shutil
 from . base import MokaBaseController
 from cement.core import controller
 from mokacms.model import (Page,
@@ -55,5 +54,4 @@ class MokaCompileController(MokaBaseController):
                 response = render_to_response(page.template,
                                               dict(page=page_d, menus=menu),
                                               request=self.app.request)
-                #shutil.copyfileobj(response.body_file, f)
                 f.write(response.body)
